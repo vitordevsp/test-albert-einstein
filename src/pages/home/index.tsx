@@ -1,16 +1,16 @@
-import { Button, Input } from '../../components'
+import { Button, Input, Logo } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import './style.css'
 
 export function HomePage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const navigateToNextPage = () => navigate('/chatbot')
 
   return (
     <main className='home-page'>
       <section className='home-page-container'>
-        <img className='logo' src="logo.png" alt="logo" />
+        <Logo />
 
         <div className='texts-container'>
           <h1>
