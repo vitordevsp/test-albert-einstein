@@ -1,3 +1,4 @@
+import { Icon } from '../Icon'
 import './style.css'
 
 interface QuestionsListProps {
@@ -11,13 +12,13 @@ export function QuestionsList({ items }: QuestionsListProps) {
     <section className="questions-list">
       {items.map(({ question }) => (
         <div className="question-item">
-          <span>
+          <span className='text-semibold'>
             {question}
           </span>
 
-          <div>
-            <div className="icon-terminal"></div>
-            <div className="icon-copy-clipboard"></div>
+          <div className='question-item-icons'>
+            <Icon name='terminal' />
+            <Icon name='clipboard' />
           </div>
         </div>
       ))}

@@ -1,6 +1,7 @@
 export * from './Button'
 export * from './Chatbot'
 export * from './Header'
+export * from './Icon'
 export * from './Input'
 export * from './Logo'
 export * from './QuestionsList'
