@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: "/perguntas",
+    path: "/chatbot",
     element: <ChatbotPage />,
   },
 ])
