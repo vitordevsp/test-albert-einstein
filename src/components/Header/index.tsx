@@ -1,13 +1,20 @@
+import { Logo } from '..'
 import './style.css'
 
-interface HeaderProps {
-  children: React.ReactNode
-}
-
-export function Header({ children }: HeaderProps) {
+export function Header() {
   return (
     <header className="header">
-      {children}
+      <Logo />
+
+      <div>
+        <h1>
+          Chatbot Albertinho
+        </h1>
+
+        <h3 className='color-gray-1'>
+          Desafio Hospital Israelita Albert Einstein
+        </h3>
+      </div>
     </header>
   )
 }
