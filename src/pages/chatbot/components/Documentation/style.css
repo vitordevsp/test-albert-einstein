@@ -1,0 +1,12 @@
+.documentation {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.documentation img {
+  width: 100%;
+  max-width: fit-content;
+  margin: auto;
+  border-radius: 4px;
+}

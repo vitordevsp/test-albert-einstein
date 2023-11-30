@@ -1,20 +1,30 @@
-import { useEffect } from "react"
-import { listQuestions } from "../../services/QuestionsService"
+import { useState } from 'react'
+import { Header, TabsNavigation } from '../../components'
+import { Documentation, Product, Questions } from './components'
+import './style.css'
+
+type TabOptions = 'Perguntas' | 'Produto' | 'Documentação'
 
 export function ChatbotPage() {
-  useEffect(() => {
-    console.log('useEffect')
+  const [tabSelected, setTabSelected] = useState<TabOptions>('Perguntas')
 
-    async function fetchData() {
-      const data = await listQuestions()
-      console.log('data: ', data)
-    }
-    fetchData()
-  }, [])
+  const tabContent = {
+    'Perguntas': <Questions />,
+    'Produto': <Product />,
+    'Documentação': <Documentation />,
+  }
 
   return (
-    <main>
-      <h1>ChatbotPage</h1>
+    <main className="chatbot-page">
+      <Header />
+
+      <TabsNavigation
+        items={['Perguntas', 'Produto', 'Documentação']}
+        selectedItem={tabSelected}
+        onChangeItem={(item: string) => setTabSelected(item as TabOptions)}
+      />
+
+      {tabContent[tabSelected]}
     </main>
   )
 }

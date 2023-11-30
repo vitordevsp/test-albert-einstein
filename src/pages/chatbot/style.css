@@ -1,0 +1,10 @@
+.chatbot-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 56px auto;
+  padding: 24px;
+}
+
+.tabs-navigation {
+  margin: 56px 0 32px;
+}
