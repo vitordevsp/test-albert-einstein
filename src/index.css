@@ -1,7 +1,24 @@
-:root {
-  color: #242424;
-  background-color: #FFFFFF;
+/* ---------- Configs ---------- */
 
+:root {
+  --bg-color-app: #fff;
+
+  --color-gray-0: #2D2D2D;
+  --color-gray-1: #5E5E5E;
+  --color-gray-2: #8C8C8C;
+  --color-gray-3: #ADADAD;
+
+  color: var(--color-gray-0);
+  background-color: var(--bg-color-app);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -11,9 +28,83 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  margin: 0;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
+a {
+  text-decoration: none;
+}
+
+/* html {
+  font-size: calc(100vw / 1440 * 10);
+}
+
+@media screen and (max-width: 1023px) {
+  html {
+    font-size: calc(100vw / 375 * 10);
+  }
+} */
+
+/* ---------- Texts ---------- */
+
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+p, span {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.text-semibold {
+  font-weight: 500;
+}
+
+.text-regular {
+  font-weight: 400;
+}
+
+/* ---------- Colors ---------- */
+
+.color-gray-0 {
+  color: var(--color-gray-0);
+}
+
+.color-gray-1 {
+  color: var(--color-gray-1);
+}
+
+.color-gray-2 {
+  color: var(--color-gray-2);
+}
+
+.color-gray-3 {
+  color: var(--color-gray-3);
 }
