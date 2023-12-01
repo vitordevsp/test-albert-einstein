@@ -1,5 +1,7 @@
 import { Icon } from '../..'
 import { useAppContext } from '../../../contexts/appContext/useAppContext'
+import { InputChatbot } from './components/InputChatbot'
+import { MessageChatbot } from './components/MessageChatbot'
 import './style.css'
 
 interface ChatbotModalProps {
@@ -7,11 +9,7 @@ interface ChatbotModalProps {
 }
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
-  const {
-    userName,
-    chatbotInput,
-    setChatbotInput,
-  } = useAppContext()
+  const { userName, chatbotHistory, setChatbotHistory } = useAppContext()
 
   return (
     <div className='chatbot-modal-overlay'>
@@ -25,20 +23,30 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
         </header>
 
         <main>
-          {userName}
+          <MessageChatbot
+            chatbotHistory={{
+              name: 'Chatbot Albertinho',
+              text: 'Olá, fique a vontade para me fazer uma pergunta. Abaixo eu deixei algumas sugestões de dúvidas comuns.',
+              type: 'chatbot',
+            }}
+          />
+
+          {chatbotHistory.length === 0 && (
+            <div>
+              {/* sugestoes de perguntas */}
+            </div>
+          )}
+
+          {chatbotHistory.map(({ name, text, type }, idx) => (
+            <MessageChatbot
+              key={idx}
+              chatbotHistory={{ name, text, type }}
+            />
+          ))}
         </main>
 
         <footer>
-          <div className='input-container'>
-            <input
-              value={chatbotInput}
-              onChange={event => setChatbotInput(event.currentTarget.value)}
-              placeholder='Digite uma mensagem...'
-              autoFocus
-            />
-
-            <Icon name='send' />
-          </div>
+          <InputChatbot />
         </footer>
       </div>
     </div>

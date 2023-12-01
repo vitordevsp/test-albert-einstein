@@ -33,27 +33,13 @@
 
 .chatbot-modal main {
   flex-grow: 1;
+  padding: 24px 24px 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .chatbot-modal footer {
-  padding: 8px 24px 24px;
-}
-
-.chatbot-modal footer .input-container {
-  background: #fff;
-  padding: 14px 20px;
-  border-radius: 30px;
-
-  display: flex;
-  gap: 16px;
-}
-
-.chatbot-modal footer .input-container input {
-  flex-grow: 1;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--color-gray-1);
+  padding: 0 24px 24px;
 }

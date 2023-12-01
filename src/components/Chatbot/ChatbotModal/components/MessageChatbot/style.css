@@ -1,0 +1,15 @@
+.message-chatbot {
+  display: flex;
+  gap: 16px;
+}
+
+.message-chatbot img {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+}
+
+.message-chatbot-text {
+  display: flex;
+  flex-direction: column;
+}
