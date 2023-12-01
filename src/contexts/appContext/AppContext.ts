@@ -9,7 +9,7 @@ export interface ChatbotHistoryProps {
 
 export interface AppContextProps {
   userName: string
-  setUserName: Dispatch<SetStateAction<string>>
+  setUserName: (name: string) => void
 
   questions: Question[]
 

@@ -8,8 +8,17 @@ interface AppContextProviderProps {
 }
 
 export function AppContextProvider({ children }: AppContextProviderProps) {
-  // @TODO: Salvar e buscar do localStorage
-  const [userName, setUserName] = useState('')
+  const [userName, setUserNameDefault] = useState('')
+
+  const setUserName = (name: string) => {
+    setUserNameDefault(name)
+    localStorage.setItem('userName', name)
+  }
+
+  useEffect(() => {
+    const name = localStorage.getItem('userName')
+    setUserNameDefault(name || '')
+  }, [])
 
   const [isActiveChatbotModal, setIsActiveChatbotModal] = useState(false)
   const toggleIsActiveChatbotModal = () => setIsActiveChatbotModal(currentValue => !currentValue)
