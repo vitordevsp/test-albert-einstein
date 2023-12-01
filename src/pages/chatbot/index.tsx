@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Header, TabsNavigation } from '../../components'
+import { Chatbot, Header, TabsNavigation } from '../../components'
 import { Documentation, Product, Questions } from './components'
 import './style.css'
 
@@ -25,6 +25,8 @@ export function ChatbotPage() {
       />
 
       {tabContent[tabSelected]}
+
+      <Chatbot />
     </main>
   )
 }

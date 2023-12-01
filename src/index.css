@@ -3,6 +3,9 @@
 :root {
   --bg-color-app: #fff;
 
+  --primary-color: #00558F;
+
+  --color-white: #fff;
   --color-gray-0: #3b3b3b;
   --color-gray-1: #5E5E5E;
   --color-gray-2: #8C8C8C;
@@ -92,6 +95,10 @@ p, span {
 }
 
 /* ---------- Colors ---------- */
+
+.color-white {
+  color: var(--color-white);
+}
 
 .color-gray-0 {
   color: var(--color-gray-0);

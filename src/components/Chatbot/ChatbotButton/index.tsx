@@ -1,8 +1,13 @@
 import './style.css'
 
-export function ChatbotButton() {
+interface ChatbotButtonProps {
+  onClick?: () => void
+}
+
+export function ChatbotButton({ onClick }: ChatbotButtonProps) {
   return (
-    <div className="chatbot-button">
+    <div className="chatbot-button" onClick={onClick}>
+      <img src="/albertinho.png" alt="chatbot-albertinho" />
     </div>
   )
 }
