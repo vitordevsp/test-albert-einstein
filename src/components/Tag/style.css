@@ -1,0 +1,10 @@
+.tag {
+  width: fit-content;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-1);
+}

@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from 'react'
+import { Question } from '../../services/QuestionsService/types'
 
 export interface ChatbotHistoryProps {
   name: string
@@ -9,6 +10,8 @@ export interface ChatbotHistoryProps {
 export interface AppContextProps {
   userName: string
   setUserName: Dispatch<SetStateAction<string>>
+
+  questions: Question[]
 
   isActiveChatbotModal: boolean
   toggleIsActiveChatbotModal: () => void

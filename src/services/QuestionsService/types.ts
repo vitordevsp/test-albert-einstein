@@ -1,6 +1,6 @@
 export interface Question {
-  pergunta: string
-  resposta: string
+  question: string
+  answer: string
 }
 
 export interface QuestionResponse {

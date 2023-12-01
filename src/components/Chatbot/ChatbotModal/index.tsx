@@ -1,7 +1,7 @@
-import { Icon } from '../..'
-import { useAppContext } from '../../../contexts/appContext/useAppContext'
+import { Icon, Tag } from '../..'
 import { InputChatbot } from './components/InputChatbot'
 import { MessageChatbot } from './components/MessageChatbot'
+import { useAppContext } from '../../../contexts/appContext/useAppContext'
 import './style.css'
 
 interface ChatbotModalProps {
@@ -9,7 +9,7 @@ interface ChatbotModalProps {
 }
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
-  const { userName, chatbotHistory, setChatbotHistory } = useAppContext()
+  const { questions, chatbotHistory } = useAppContext()
 
   return (
     <div className='chatbot-modal-overlay'>
@@ -23,19 +23,23 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
         </header>
 
         <main>
-          <MessageChatbot
-            chatbotHistory={{
-              name: 'Chatbot Albertinho',
-              text: 'Olá, fique a vontade para me fazer uma pergunta. Abaixo eu deixei algumas sugestões de dúvidas comuns.',
-              type: 'chatbot',
-            }}
-          />
+          <div>
+            <MessageChatbot
+              chatbotHistory={{
+                name: 'Chatbot Albertinho',
+                text: 'Olá, fique a vontade para me fazer uma pergunta. Abaixo eu deixei algumas sugestões de dúvidas comuns.',
+                type: 'chatbot',
+              }}
+            />
 
-          {chatbotHistory.length === 0 && (
-            <div>
-              {/* sugestoes de perguntas */}
-            </div>
-          )}
+            {chatbotHistory.length === 0 && (
+              <div className='suggested-questions'>
+                {(questions.slice(0, 3)).map(({ question }) => (
+                  <Tag text={question} />
+                ))}
+              </div>
+            )}
+          </div>
 
           {chatbotHistory.map(({ name, text, type }, idx) => (
             <MessageChatbot

@@ -13,11 +13,7 @@ export function Questions() {
         Perguntas
       </h2>
 
-      <QuestionsList items={[
-        { question: 'Primeira pergunta?' },
-        { question: 'Segunda pergunta?' },
-        { question: 'Terceira pergunta?' },
-      ]} />
+      <QuestionsList />
     </section>
   )
 }

@@ -1,16 +1,10 @@
 import { toast } from 'react-toastify'
 import { Icon } from '../Icon'
-import './style.css'
 import { useAppContext } from '../../contexts/appContext/useAppContext'
+import './style.css'
 
-interface QuestionsListProps {
-  items: {
-    question: string
-  }[]
-}
-
-export function QuestionsList({ items }: QuestionsListProps) {
-  const { setChatbotInput, toggleIsActiveChatbotModal } = useAppContext()
+export function QuestionsList() {
+  const { setChatbotInput, toggleIsActiveChatbotModal, questions } = useAppContext()
 
   const copyToTerminal = (text: string) => {
     setChatbotInput(text)
@@ -25,7 +19,7 @@ export function QuestionsList({ items }: QuestionsListProps) {
 
   return (
     <section className="questions-list">
-      {items.map(({ question }) => (
+      {questions.map(({ question }) => (
         <div key={question} className="question-item">
           <span className='text-semibold'>
             {question}

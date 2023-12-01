@@ -40,6 +40,13 @@
   gap: 32px;
 }
 
+.chatbot-modal main .suggested-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 0 38px;
+}
+
 .chatbot-modal footer {
   padding: 0 24px 24px;
 }
