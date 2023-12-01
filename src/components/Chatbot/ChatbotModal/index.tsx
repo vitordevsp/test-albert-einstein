@@ -22,7 +22,7 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
           <Icon name='close' onClick={onClose} />
         </header>
 
-        <main>
+        <main id='chatbot-modal-main'>
           <div>
             <MessageChatbot
               chatbotHistory={{
@@ -36,6 +36,7 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
               <div className='suggested-questions'>
                 {(questions.slice(0, 3)).map(({ question }) => (
                   <Tag
+                    key={question}
                     text={question}
                     onClick={registerQuestionAndAnswerChatbot}
                   />
