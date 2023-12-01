@@ -12,7 +12,9 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
   const { questions, chatbotHistory, registerQuestionAndAnswerChatbot } = useAppContext()
 
   return (
-    <div className='chatbot-modal-overlay'>
+    <>
+      <div className='chatbot-modal-overlay' onClick={onClose} />
+
       <div className="chatbot-modal">
         <header>
           <span className='color-white text-bold'>
@@ -57,6 +59,6 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
           <InputChatbot />
         </footer>
       </div>
-    </div>
+    </>
   )
 }

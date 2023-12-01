@@ -1,6 +1,8 @@
 .message-chatbot {
   display: flex;
   gap: 16px;
+
+  animation: fade-in 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
 
 .message-chatbot img {
