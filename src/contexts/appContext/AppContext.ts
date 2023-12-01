@@ -21,6 +21,7 @@ export interface AppContextProps {
 
   chatbotHistory: ChatbotHistoryProps[]
   setChatbotHistory: Dispatch<SetStateAction<ChatbotHistoryProps[]>>
+  registerQuestionAndAnswerChatbot: (text: string) => Promise<void>
 }
 
 export const AppContext = createContext({} as AppContextProps)

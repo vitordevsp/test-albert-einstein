@@ -16,18 +16,39 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
   const [chatbotInput, setChatbotInput] = useState('')
 
-  const [chatbotHistory, setChatbotHistory] = useState<ChatbotHistoryProps[]>([
-    {
-      name: 'chatbot',
-      text: 'Olá, fique a vontade para me fazer uma pergunta. Abaixo eu deixei algumas sugestões de dúvidas comuns.',
-      type: 'chatbot',
-    },
-    {
-      name: 'Vitor',
-      text: 'Salve salve ',
+  const [chatbotHistory, setChatbotHistory] = useState<ChatbotHistoryProps[]>([])
+
+  const registerQuestionAndAnswerChatbot = async (text: string) => {
+    const historyQuestion: ChatbotHistoryProps = {
+      name: userName || 'Usuário',
+      text,
       type: 'user',
-    },
-  ])
+    }
+
+    setChatbotHistory(currentValue => [...currentValue, historyQuestion])
+    setChatbotInput('')
+
+    const answerObj = await questionsService.get(text)
+
+    if (answerObj) {
+      const historyAnswer: ChatbotHistoryProps = {
+        name: 'Chatbot Albertinho',
+        text: answerObj.answer,
+        type: 'chatbot',
+      }
+
+      setChatbotHistory(currentValue => [...currentValue, historyAnswer])
+    }
+    else {
+      const historyAnswer: ChatbotHistoryProps = {
+        name: 'Chatbot Albertinho',
+        text: 'Infelizmente não estou preparado para responder essa pergunta.',
+        type: 'chatbot',
+      }
+
+      setChatbotHistory(currentValue => [...currentValue, historyAnswer])
+    }
+  }
 
   const [questions, setQuestions] = useState<Question[]>([])
 
@@ -54,6 +75,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
 
       chatbotHistory,
       setChatbotHistory,
+      registerQuestionAndAnswerChatbot,
     }}>
       {children}
     </AppContext.Provider>

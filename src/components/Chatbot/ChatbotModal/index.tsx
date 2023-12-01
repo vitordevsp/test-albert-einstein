@@ -9,7 +9,7 @@ interface ChatbotModalProps {
 }
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
-  const { questions, chatbotHistory } = useAppContext()
+  const { questions, chatbotHistory, registerQuestionAndAnswerChatbot } = useAppContext()
 
   return (
     <div className='chatbot-modal-overlay'>
@@ -35,7 +35,10 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
             {chatbotHistory.length === 0 && (
               <div className='suggested-questions'>
                 {(questions.slice(0, 3)).map(({ question }) => (
-                  <Tag text={question} />
+                  <Tag
+                    text={question}
+                    onClick={registerQuestionAndAnswerChatbot}
+                  />
                 ))}
               </div>
             )}
