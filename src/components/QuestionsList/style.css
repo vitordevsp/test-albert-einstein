@@ -16,5 +16,6 @@
 
 .questions-list .question-item-icons {
   display: flex;
+  align-items: center;
   gap: 16px;
 }

@@ -8,9 +8,10 @@ type IconName = 'clipboard' | 'close' | 'send' | 'terminal'
 
 interface IconProps {
   name: IconName
+  onClick?: () => void
 }
 
-export function Icon({ name }: IconProps) {
+export function Icon({ name, onClick }: IconProps) {
   const icons: Record<IconName, JSX.Element> = {
     clipboard: <ClipboardIcon />,
     close: <CloseIcon />,
@@ -19,7 +20,7 @@ export function Icon({ name }: IconProps) {
   }
 
   return (
-    <div className='icon'>
+    <div className='icon' onClick={onClick}>
       {icons[name]}
     </div>
   )

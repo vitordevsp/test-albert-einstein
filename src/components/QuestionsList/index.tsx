@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { Icon } from '../Icon'
 import './style.css'
 
@@ -8,6 +9,10 @@ interface QuestionsListProps {
 }
 
 export function QuestionsList({ items }: QuestionsListProps) {
+  const copyToTerminal = () => toast('Texto inserido no chatbot!')
+
+  const copyToClipboard = () => toast('Texto copiado para a área de transferências!')
+
   return (
     <section className="questions-list">
       {items.map(({ question }) => (
@@ -17,8 +22,9 @@ export function QuestionsList({ items }: QuestionsListProps) {
           </span>
 
           <div className='question-item-icons'>
-            <Icon name='terminal' />
-            <Icon name='clipboard' />
+            <Icon name='terminal' onClick={copyToTerminal} />
+
+            <Icon name='clipboard' onClick={copyToClipboard} />
           </div>
         </div>
       ))}
