@@ -1,4 +1,5 @@
 import { Icon } from '../..'
+import { useAppContext } from '../../../contexts/appContext/useAppContext'
 import './style.css'
 
 interface ChatbotModalProps {
@@ -6,6 +7,8 @@ interface ChatbotModalProps {
 }
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
+  const { userName } = useAppContext()
+
   return (
     <div className='chatbot-modal-overlay'>
       <div className="chatbot-modal">
@@ -17,7 +20,9 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
           <Icon name='close' onClick={onClose} />
         </header>
 
-        <main></main>
+        <main>
+          {userName}
+        </main>
 
         <footer>
           <div className='input-container'>

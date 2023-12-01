@@ -1,20 +1,18 @@
-import { useState } from 'react'
 import { ChatbotButton } from './ChatbotButton'
 import { ChatbotModal } from './ChatbotModal'
+import { useAppContext } from '../../contexts/appContext/useAppContext'
 
 export function Chatbot() {
-  const [isActive, setIsActive] = useState(false)
-
-  const toggleIsActive = () => setIsActive(currentValue => !currentValue)
+  const { isActiveChatbotModal, toggleIsActiveChatbotModal } = useAppContext()
 
   return (
     <>
-      {isActive
+      {isActiveChatbotModal
         ? (
-          <ChatbotModal onClose={toggleIsActive} />
+          <ChatbotModal onClose={toggleIsActiveChatbotModal} />
         )
         : (
-          <ChatbotButton onClick={toggleIsActive} />
+          <ChatbotButton onClick={toggleIsActiveChatbotModal} />
         )
       }
     </>

@@ -16,7 +16,7 @@ export function QuestionsList({ items }: QuestionsListProps) {
   return (
     <section className="questions-list">
       {items.map(({ question }) => (
-        <div className="question-item">
+        <div key={question} className="question-item">
           <span className='text-semibold'>
             {question}
           </span>

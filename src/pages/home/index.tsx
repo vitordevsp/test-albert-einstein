@@ -1,8 +1,11 @@
-import { Button, Input, Logo } from '../../components'
 import { useNavigate } from 'react-router-dom'
+import { Button, Input, Logo } from '../../components'
+import { useAppContext } from '../../contexts/appContext/useAppContext'
 import './style.css'
 
 export function HomePage() {
+  const { userName, setUserName } = useAppContext()
+
   const navigate = useNavigate()
 
   const navigateToNextPage = () => navigate('/chatbot')
@@ -27,7 +30,12 @@ export function HomePage() {
         </div>
 
         <div className='form-container'>
-          <Input placeholder='Digite seu nome:' autoFocus />
+          <Input
+            placeholder='Digite seu nome:'
+            value={userName}
+            onChange={event => setUserName(event.currentTarget.value)}
+            autoFocus
+          />
 
           <Button onClick={navigateToNextPage}>
             Começar
