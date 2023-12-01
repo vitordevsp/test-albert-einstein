@@ -2,7 +2,7 @@
   width: 56px;
   height: 56px;
   border-radius: 100%;
-  background: var(--primary-color);
+  background: #fff;
   cursor: pointer;
 
   display: flex;
@@ -12,6 +12,10 @@
   position: fixed;
   bottom: 60px;
   right: 120px;
+
+  -webkit-box-shadow: 1px 1px 50px -8px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 1px 1px 50px -8px rgba(0, 0, 0, 0.7);
+  box-shadow: 1px 1px 50px -8px rgba(0, 0, 0, 0.7);
 }
 
 .chatbot-button img {
