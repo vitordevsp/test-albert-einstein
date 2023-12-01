@@ -8,7 +8,7 @@ interface MessageChatbotProps {
 export function MessageChatbot({ chatbotHistory: { name, text, type } }: MessageChatbotProps) {
   const srcImg = type === 'chatbot'
     ? '/albertinho.png'
-    : '/albertinho.png'
+    : '/userImg.png'
 
   return (
     <div className="message-chatbot">
