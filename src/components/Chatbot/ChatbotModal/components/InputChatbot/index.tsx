@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { toast } from 'react-toastify'
 import { Icon } from '../../../..'
 import { useAppContext } from '../../../../../contexts/appContext/useAppContext'
 import './style.css'
@@ -12,13 +13,21 @@ export function InputChatbot() {
     registerQuestionAndAnswerChatbot,
   } = useAppContext()
 
-  const submit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!chatbotInput) {
+      toast('Digite uma mensagem!')
+      inputRef.current?.focus()
+      return
+    }
+
     registerQuestionAndAnswerChatbot(chatbotInput)
     inputRef.current?.focus()
   }
 
   return (
-    <div className='input-chatbot'>
+    <form className='input-chatbot' onSubmit={handleSubmit}>
       <input
         ref={inputRef}
         value={chatbotInput}
@@ -27,10 +36,12 @@ export function InputChatbot() {
         autoFocus
       />
 
-      <Icon
-        name='send'
-        onClick={submit}
-      />
-    </div>
+      <button
+        type='submit'
+        className='input-chatbot-submit'
+      >
+        <Icon name='send' />
+      </button>
+    </form>
   )
 }

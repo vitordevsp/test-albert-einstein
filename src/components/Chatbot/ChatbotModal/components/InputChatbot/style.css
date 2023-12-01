@@ -16,3 +16,9 @@
   font-weight: 500;
   color: var(--color-gray-1);
 }
+
+.input-chatbot .input-chatbot-submit {
+  border: none;
+  background: none;
+  outline: none;
+}
