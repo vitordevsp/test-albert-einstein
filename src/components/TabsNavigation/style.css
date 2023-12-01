@@ -23,3 +23,14 @@
   background: #e2e6e9;
   outline-color: #c5c6c7;
 }
+
+@media (max-width: 720px) {
+  .tabs-navigation {
+    gap: 4px;
+  }
+
+  .tab-navigate {
+    padding: 12px 12px;
+    font-size: 14px;
+  }
+}

@@ -15,7 +15,7 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
     <div className='chatbot-modal-overlay'>
       <div className="chatbot-modal">
         <header>
-          <span className='color-white'>
+          <span className='color-white text-bold'>
             Chatbot Albertinho
           </span>
 
