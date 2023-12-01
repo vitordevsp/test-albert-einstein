@@ -7,7 +7,11 @@ interface ChatbotModalProps {
 }
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
-  const { userName } = useAppContext()
+  const {
+    userName,
+    chatbotInput,
+    setChatbotInput,
+  } = useAppContext()
 
   return (
     <div className='chatbot-modal-overlay'>
@@ -26,7 +30,12 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
 
         <footer>
           <div className='input-container'>
-            <input placeholder='Digite uma mensagem...' />
+            <input
+              value={chatbotInput}
+              onChange={event => setChatbotInput(event.currentTarget.value)}
+              placeholder='Digite uma mensagem...'
+              autoFocus
+            />
 
             <Icon name='send' />
           </div>
