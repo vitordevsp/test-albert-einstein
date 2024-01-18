@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './Chatbot'
+export * from './Chatbot2'
 export * from './Header'
 export * from './Icon'
 export * from './Input'

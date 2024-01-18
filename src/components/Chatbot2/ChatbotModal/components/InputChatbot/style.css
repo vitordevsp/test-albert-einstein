@@ -1,0 +1,24 @@
+.input-chatbot {
+  background: #fff;
+  padding: 14px 20px;
+  border-radius: 30px;
+
+  display: flex;
+  gap: 16px;
+}
+
+.input-chatbot input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-gray-1);
+}
+
+.input-chatbot .input-chatbot-submit {
+  border: none;
+  background: none;
+  outline: none;
+}

@@ -19,8 +19,8 @@ export function QuestionsList() {
 
   return (
     <section className="questions-list">
-      {questions.map(({ question }) => (
-        <div key={question} className="question-item">
+      {questions.map(({ question }, idx) => (
+        <div key={idx} className="question-item">
           <span className='text-semibold'>
             {question}
           </span>
