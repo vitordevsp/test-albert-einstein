@@ -24,13 +24,6 @@ export function InputChatbot() {
 
     registerQuestionAndAnswerChatbot(chatbotInput)
     inputRef.current?.focus()
-
-    setTimeout(() => {
-      const mainElement = document.getElementById('chatbot-modal-main')
-      if (!mainElement) return
-
-      mainElement.scrollTop = mainElement.scrollHeight
-    }, 200)
   }
 
   return (

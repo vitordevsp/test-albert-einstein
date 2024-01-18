@@ -18,7 +18,15 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   // ----- History -----
 
   const [chatbotHistory, setChatbotHistory] = useState<IChatbotHistory[]>([])
-  const addHistoryToChatbot = (history: IChatbotHistory) => setChatbotHistory(currentValue => [...currentValue, history])
+  const addHistoryToChatbot = (history: IChatbotHistory) => {
+    setChatbotHistory(currentValue => [...currentValue, history])
+
+    setTimeout(() => {
+      const mainTest = document.getElementById('chatbot-modal-main')
+      if (!mainTest) return
+      mainTest.scrollTop = mainTest.scrollHeight
+    }, 200)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,13 +118,28 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   }
 
   const generateQuestionFromAnswer = async (history: IChatbotHistory) => {
-    console.log('generateQuestionFromAnswer: ', history)
-
     const dialogueId = history.dialogue_id || ''
 
     // @TODO: validar os dados antes de fazer a chamada
 
-    await chatbotService.generateQuestionFromAnswer(dialogueId)
+    const response = await chatbotService.generateQuestionFromAnswer(dialogueId)
+
+    const {
+      id: dialogue_id,
+      email,
+      creation_date,
+      generated_question,
+    } = response
+
+    const questionHistory: IChatbotHistory = {
+      dialogue_id,
+      email,
+      type: 'question',
+      creation_date,
+      generated_question,
+    }
+
+    addHistoryToChatbot(questionHistory)
   }
 
   return (

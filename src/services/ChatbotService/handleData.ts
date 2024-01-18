@@ -58,37 +58,35 @@ export function handleDataHistoryList(data: IDialogueResponse[]): IDialogue[] {
   return mappedData
 }
 
-export function handleDataGenerateQuestionFromAnswer(data: IQuestionResponse[]): IQuestion[] {
-  const mappedData = data.map<IQuestion>(obj => {
-    const {
-      id,
-      title,
-      description,
-      email,
-      properties,
-      creation_date,
-    } = obj
+export function handleDataGenerateQuestionFromAnswer(data: IQuestionResponse): IQuestion {
+  const {
+    id,
+    title,
+    description,
+    email,
+    properties,
+    creation_date,
+  } = data
 
-    const generatedQuestionProp = properties.find(prop => prop.name === 'generated_question')
+  const generatedQuestionProp = properties.find(prop => prop.name === 'generated_question')
 
-    const questionTitle = typeof generatedQuestionProp?.value === 'object'
-      ? generatedQuestionProp?.value.statement : undefined
+  const questionTitle = typeof generatedQuestionProp?.value === 'object'
+    ? generatedQuestionProp?.value.statement : undefined
 
-    const questionOptions = typeof generatedQuestionProp?.value === 'object'
-      ? generatedQuestionProp?.value.option_list : undefined
+  const questionOptions = typeof generatedQuestionProp?.value === 'object'
+    ? generatedQuestionProp?.value.option_list : undefined
 
-    return {
-      id,
-      title,
-      description,
-      email,
-      creation_date,
-      generated_question: {
-        title: questionTitle,
-        options: questionOptions,
-      },
-    }
-  })
+  const mappedData = {
+    id,
+    title,
+    description,
+    email,
+    creation_date,
+    generated_question: {
+      title: questionTitle,
+      options: questionOptions,
+    },
+  }
 
   return mappedData
 }

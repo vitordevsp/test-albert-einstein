@@ -35,20 +35,22 @@ export interface IQuestionOption {
   reason: string
 }
 
+export interface IQuestionGenereted {
+  title?: string
+  options?: IQuestionOption[]
+}
+
 export interface IQuestion {
   id: string
   title: string
   description: string
   email: string
   creation_date: string
-  generated_question: {
-    title?: string
-    options?: IQuestionOption[]
-  }
+  generated_question: IQuestionGenereted
 }
 
 export interface IChatbotHistory {
-  type: 'user' | 'chatbot'
+  type: 'user' | 'chatbot' | 'question'
   dialogue_id?: string
   email?: string
   creation_date?: string
@@ -57,4 +59,5 @@ export interface IChatbotHistory {
     value?: string
   }
   answer?: IDialogueAnswer
+  generated_question?: IQuestionGenereted
 }
