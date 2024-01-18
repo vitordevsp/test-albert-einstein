@@ -59,16 +59,20 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   const registerQuestionAndAnswerChatbot = async (text: string) => {
     console.log('registerQuestionAndAnswerChatbot:', text)
 
-    // const historyQuestion: IChatbotHistory = {
-    //   type: 'user',
-    //   question: {
-    //     id: undefined,
-    //     value: text,
-    //   },
-    // }
+    const historyQuestion: IChatbotHistory = {
+      type: 'user',
+      question: {
+        id: undefined,
+        value: text,
+      },
+    }
 
-    // setChatbotHistory(currentValue => [...currentValue, historyQuestion])
-    // setChatbotInput('')
+    setChatbotHistory(currentValue => [...currentValue, historyQuestion])
+    setChatbotInput('')
+
+    const response = await chatbotService.sendMessage(text, userEmail)
+
+    console.log('response: ', response)
 
     // const answerObj = await questionsService.get(text)
 
@@ -92,8 +96,8 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     // }
   }
 
-  const evaluateResponseMessage = async (action: 'like' | 'dislike', history: IChatbotHistory) => {
-    console.log('evaluateResponseMessage: ', action, history)
+  const evaluateResponseMessage = async (like: 'true' | 'false', history: IChatbotHistory) => {
+    console.log('evaluateResponseMessage: ', like, history)
 
     // @TODO: validar os dados antes de fazer a chamada
 
@@ -101,7 +105,7 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
       id: history.answer?.id || '',
       email: history.email || '',
       memory_id: history.dialogue_id || '',
-      like: action,
+      like,
     })
   }
 

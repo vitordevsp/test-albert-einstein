@@ -33,7 +33,7 @@ export const chatbotService = {
   },
 
   sendMessage: async (input: string, email: string) => {
-    fetch('http://localhost:8000/stream_response?' + new URLSearchParams({ input, email }).toString())
+    return fetch('http://localhost:8000/stream_response?' + new URLSearchParams({ input, email }).toString())
       .then((response) => { // Retrieve its body as ReadableStream
         const reader = response.body?.getReader()
         // read() returns a promise that resolves when a value has been received
@@ -43,6 +43,7 @@ export const chatbotService = {
           if (done) {
             // Do something with last chunk of data then exit reader
             console.log('fim')
+
             isBotResponding = false
             botResponseChunks = []
 

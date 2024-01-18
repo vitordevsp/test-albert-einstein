@@ -12,7 +12,7 @@ export interface ChatbotContextProps {
   setChatbotHistory: Dispatch<SetStateAction<IChatbotHistory[]>>
 
   registerQuestionAndAnswerChatbot: (text: string) => Promise<void>
-  evaluateResponseMessage: (action: 'like' | 'dislike', history: IChatbotHistory) => Promise<void>
+  evaluateResponseMessage: (like: 'true' | 'false', history: IChatbotHistory) => Promise<void>
   generateQuestionFromAnswer: (history: IChatbotHistory) => Promise<void>
 }
 

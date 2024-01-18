@@ -40,11 +40,11 @@ export function MessageChatbot({ history, hiddeActions }: MessageChatbotProps) {
 
         {type === 'chatbot' && !hiddeActions && (
           <div className='message-chatbot-action'>
-            <button onClick={() => evaluateResponseMessage('like', history)}>
+            <button onClick={() => evaluateResponseMessage('true', history)}>
               <SlLike />
             </button>
 
-            <button onClick={() => evaluateResponseMessage('dislike', history)}>
+            <button onClick={() => evaluateResponseMessage('false', history)}>
               <SlDislike />
             </button>
 

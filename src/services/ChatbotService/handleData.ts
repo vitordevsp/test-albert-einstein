@@ -15,14 +15,12 @@ export function handleDataHistoryList(data: IDialogueResponse[]): IDialogue[] {
     const questionProp = properties.find(prop => prop.name === 'question')
     const answerProp = properties.find(prop => prop.name === 'answer')
     const evaluationLikeProp = properties.find(prop => prop.name === 'like')
-    const evaluationDislikeProp = properties.find(prop => prop.name === 'dislike')
 
     const questionValue = typeof questionProp?.value === 'string' ? questionProp.value : undefined
     const answerValue = typeof answerProp?.value === 'string' ? answerProp.value : undefined
 
     let evaluationAction: IDialogueEvaluationAction = undefined
     if (evaluationLikeProp) evaluationAction = 'like'
-    else if (evaluationDislikeProp) evaluationAction = 'dislike'
 
     const evaluationProperties = {
       question_id: undefined as undefined | string,
@@ -33,11 +31,6 @@ export function handleDataHistoryList(data: IDialogueResponse[]): IDialogue[] {
       evaluationProperties.question_id = evaluationLikeProp.value.question_id
       evaluationProperties.answer_id = evaluationLikeProp.value.answer_id
       evaluationProperties.creation_date = evaluationLikeProp.value.creation_date
-    }
-    else if (evaluationDislikeProp && typeof evaluationDislikeProp.value === 'object') {
-      evaluationProperties.question_id = evaluationDislikeProp.value.question_id
-      evaluationProperties.answer_id = evaluationDislikeProp.value.answer_id
-      evaluationProperties.creation_date = evaluationDislikeProp.value.creation_date
     }
 
     return {

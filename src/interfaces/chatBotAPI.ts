@@ -13,7 +13,7 @@ export interface IDialogueResponse {
   type: string
   creation_date: string
   properties: {
-    name: 'question' | 'answer' | 'like' | 'dislike' | 'sources'
+    name: 'question' | 'answer' | 'like' | 'sources'
     value: string | IDialogueEvaluation
   }[]
 }
