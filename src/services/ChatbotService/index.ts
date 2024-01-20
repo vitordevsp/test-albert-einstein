@@ -1,7 +1,15 @@
 import { chatBotAPI } from '../../lib/Axios/chatBotAPI'
-import { handleDataGenerateQuestionFromAnswer, handleDataHistoryList } from './handleData'
+import {
+  handleDataGenerateQuestionFromAnswer,
+  handleDataHistoryList,
+} from './handleData'
 import { IDialogue, IQuestion } from '../../interfaces/chatBot'
-import { IDialogueResponse, IEvaluateResponseMessagePayload, IQuestionResponse, ISaveGeneratedQuestionPayload } from '../../interfaces/chatBotAPI'
+import {
+  IDialogueResponse,
+  IEvaluateResponseMessagePayload,
+  IQuestionResponse,
+  ISaveGeneratedQuestionPayload,
+} from '../../interfaces/chatBotAPI'
 
 let isBotResponding = false
 let isJson = false

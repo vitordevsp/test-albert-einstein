@@ -15,6 +15,9 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
 
   const [chatbotInput, setChatbotInput] = useState('')
 
+  const [enableBotVoice, setEnableBotVoice] = useState(false)
+  const toggleEnableBotVoice = () => setEnableBotVoice(value => !value)
+
   // ----- History -----
 
   const [chatbotHistory, setChatbotHistory] = useState<IChatbotHistory[]>([])
@@ -154,6 +157,9 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
 
       chatbotInput,
       setChatbotInput,
+
+      enableBotVoice,
+      toggleEnableBotVoice,
 
       chatbotHistory,
       setChatbotHistory,

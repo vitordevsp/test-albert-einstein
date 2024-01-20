@@ -8,6 +8,9 @@ export interface ChatbotContextProps {
   chatbotInput: string
   setChatbotInput: Dispatch<SetStateAction<string>>
 
+  enableBotVoice: boolean
+  toggleEnableBotVoice: () => void
+
   chatbotHistory: IChatbotHistory[]
   setChatbotHistory: Dispatch<SetStateAction<IChatbotHistory[]>>
 

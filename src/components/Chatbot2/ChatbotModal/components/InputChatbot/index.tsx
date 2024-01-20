@@ -11,6 +11,8 @@ export function InputChatbot() {
     chatbotInput,
     setChatbotInput,
     registerQuestionAndAnswerChatbot,
+    enableBotVoice,
+    toggleEnableBotVoice,
   } = useChatbotContext()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -36,10 +38,11 @@ export function InputChatbot() {
         autoFocus
       />
 
-      <button
-        type='submit'
-        className='input-chatbot-submit'
-      >
+      <button type='button' onClick={toggleEnableBotVoice}>
+        <Icon name={enableBotVoice ? 'microphone' : 'outlineMicrophone'} />
+      </button>
+
+      <button type='submit'>
         <Icon name='send' />
       </button>
     </form>

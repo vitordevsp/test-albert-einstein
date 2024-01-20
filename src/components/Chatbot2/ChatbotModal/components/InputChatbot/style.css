@@ -4,7 +4,8 @@
   border-radius: 30px;
 
   display: flex;
-  gap: 16px;
+  align-items: center;
+  gap: 8px;
 }
 
 .input-chatbot input {
@@ -17,8 +18,10 @@
   color: var(--color-gray-1);
 }
 
-.input-chatbot .input-chatbot-submit {
+.input-chatbot button {
   border: none;
   background: none;
   outline: none;
+  margin: 0;
+  padding: 0;
 }
