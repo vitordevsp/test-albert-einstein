@@ -156,7 +156,7 @@ export const chatbotService = {
     }
   },
 
-  saveGeneratedQuestion: async (payload: ISaveGeneratedQuestionPayload) => {
+  saveGeneratedQuestionAnswer: async (payload: ISaveGeneratedQuestionPayload) => {
     try {
       await chatBotAPI.post('/persist_answer', payload)
 

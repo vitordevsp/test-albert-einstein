@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ChatbotContext } from './ChatbotContext'
 import { chatbotService } from '../../services/ChatbotService'
-import { IChatbotHistory } from '../../interfaces/chatBot'
+import { IChatbotHistory, IQuestionOption } from '../../interfaces/chatBot'
 
 interface ChatbotContextProviderProps {
   children: React.ReactNode
@@ -18,6 +18,7 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   // ----- History -----
 
   const [chatbotHistory, setChatbotHistory] = useState<IChatbotHistory[]>([])
+
   const addHistoryToChatbot = (history: IChatbotHistory) => {
     setChatbotHistory(currentValue => [...currentValue, history])
 
@@ -142,6 +143,10 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     addHistoryToChatbot(questionHistory)
   }
 
+  const saveGeneratedQuestionAnswer = async (option: IQuestionOption) => {
+    console.log('saveGeneratedQuestionAnswer: ', option)
+  }
+
   return (
     <ChatbotContext.Provider value={{
       isActiveChatbotModal,
@@ -156,6 +161,7 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
       registerQuestionAndAnswerChatbot,
       evaluateResponseMessage,
       generateQuestionFromAnswer,
+      saveGeneratedQuestionAnswer,
     }}>
       {children}
     </ChatbotContext.Provider>

@@ -17,7 +17,7 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
         alt="albertinho"
       />
 
-      <div className='message-chatbot-body'>
+      <div className='message-chatbot__body'>
         <span className='text-bold'>
           Bot Albertinho
         </span>
@@ -27,7 +27,7 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
         </p>
 
         {!hiddeActions && (
-          <div className='message-chatbot-action'>
+          <div className='message-chatbot__action'>
             <button onClick={() => evaluateResponseMessage('true', history)}>
               <SlLike />
             </button>

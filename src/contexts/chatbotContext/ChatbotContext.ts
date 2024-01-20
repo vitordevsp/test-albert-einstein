@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from 'react'
-import { IChatbotHistory } from '../../interfaces/chatBot'
+import { IChatbotHistory, IQuestionOption } from '../../interfaces/chatBot'
 
 export interface ChatbotContextProps {
   isActiveChatbotModal: boolean
@@ -14,6 +14,7 @@ export interface ChatbotContextProps {
   registerQuestionAndAnswerChatbot: (text: string) => Promise<void>
   evaluateResponseMessage: (like: 'true' | 'false', history: IChatbotHistory) => Promise<void>
   generateQuestionFromAnswer: (history: IChatbotHistory) => Promise<void>
+  saveGeneratedQuestionAnswer: (option: IQuestionOption) => Promise<void>
 }
 
 export const ChatbotContext = createContext({} as ChatbotContextProps)

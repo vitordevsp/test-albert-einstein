@@ -12,7 +12,7 @@ export function MessageBodyUser({ history }: MessageBodyUserProps) {
         alt="albertinho"
       />
 
-      <div className='message-chatbot-body'>
+      <div className='message-chatbot__body'>
         <span className='text-bold'>
           Usuário
         </span>
