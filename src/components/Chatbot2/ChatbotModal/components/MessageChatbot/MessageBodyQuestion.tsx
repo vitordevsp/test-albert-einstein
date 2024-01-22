@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { useChatbotContext } from '../../../../../contexts/chatbotContext/useChatbotContext'
 import { IChatbotHistory, IQuestionOption } from '../../../../../interfaces/chatBot'
+import { Spinner } from '../../../..'
 
 interface MessageBodyQuestionProps {
   history: IChatbotHistory
 }
 
 export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
+  const [loading, setLoading] = useState(false)
+
   const { saveGeneratedQuestionAnswer } = useChatbotContext()
 
   const [optionSeleted, setOptionSelected] = useState<IQuestionOption | null>(null)
@@ -19,8 +22,13 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
 
   const handleQuestionAnswer = () => {
     if (!optionSeleted) return
+
+    setLoading(true)
+
     saveGeneratedQuestionAnswer(optionSeleted)
     setQuestionAnswered(true)
+
+    setLoading(false)
   }
 
   return (
@@ -59,8 +67,17 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
         {!questionAnswered
           ? (
             <div className='message-chatbot__action'>
-              <button onClick={handleQuestionAnswer}>
+              <button
+                onClick={handleQuestionAnswer}
+                disabled={loading}
+              >
                 Responder
+                {loading && (
+                  <>
+                    <div style={{ width: '8px' }}></div>
+                    <Spinner />
+                  </>
+                )}
               </button>
             </div>
           )

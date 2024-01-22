@@ -6,7 +6,7 @@ export function OutlineMicrophoneIcon() {
       width={18}
       height={18}
       viewBox="0 0 24 24"
-      stroke="#585858"
+      stroke="#8c8c8c"
       fill="none"
       strokeWidth={2}
       aria-hidden="true"

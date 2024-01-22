@@ -6,8 +6,8 @@ export function MicrophoneIcon() {
       width={18}
       height={18}
       viewBox="0 0 20 20"
-      stroke="#585858"
-      fill="#585858"
+      stroke="#8c8c8c"
+      fill="#8c8c8c"
       strokeWidth={0}
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"

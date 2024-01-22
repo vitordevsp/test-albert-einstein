@@ -1,6 +1,8 @@
 import { SlDislike, SlLike } from 'react-icons/sl'
 import { useChatbotContext } from '../../../../../contexts/chatbotContext/useChatbotContext'
 import { IChatbotHistory } from '../../../../../interfaces/chatBot'
+import { useState } from 'react'
+import { Spinner } from '../../../..'
 
 interface MessageBodyBotProps {
   history: IChatbotHistory
@@ -8,7 +10,40 @@ interface MessageBodyBotProps {
 }
 
 export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
+  const [loadingObj, setLoadingObj] = useState({
+    action: '',
+    loading: false,
+  })
+
   const { evaluateResponseMessage, generateQuestionFromAnswer } = useChatbotContext()
+
+  const handleEvaluateResponseMessage = async (like: 'true' | 'false', history: IChatbotHistory) => {
+    setLoadingObj({
+      action: like,
+      loading: true,
+    })
+
+    await evaluateResponseMessage(like, history)
+
+    setLoadingObj({
+      action: like,
+      loading: false,
+    })
+  }
+
+  const handleGenerateQuestionFromAnswer = async (history: IChatbotHistory) => {
+    setLoadingObj({
+      action: 'question',
+      loading: true,
+    })
+
+    await generateQuestionFromAnswer(history)
+
+    setLoadingObj({
+      action: 'question',
+      loading: false,
+    })
+  }
 
   return (
     <>
@@ -28,16 +63,37 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
 
         {!hiddeActions && (
           <div className='message-chatbot__action'>
-            <button onClick={() => evaluateResponseMessage('true', history)}>
-              <SlLike />
+            <button
+              onClick={() => handleEvaluateResponseMessage('true', history)}
+              disabled={loadingObj.action === 'true' && loadingObj.loading}
+            >
+              {loadingObj.action === 'true' && loadingObj.loading
+                ? <Spinner />
+                : <SlLike />
+              }
             </button>
 
-            <button onClick={() => evaluateResponseMessage('false', history)}>
-              <SlDislike />
+            <button
+              onClick={() => handleEvaluateResponseMessage('false', history)}
+              disabled={loadingObj.action === 'false' && loadingObj.loading}
+            >
+              {loadingObj.action === 'false' && loadingObj.loading
+                ? <Spinner />
+                : <SlDislike />
+              }
             </button>
 
-            <button onClick={() => generateQuestionFromAnswer(history)}>
+            <button
+              onClick={() => handleGenerateQuestionFromAnswer(history)}
+              disabled={loadingObj.action === 'question' && loadingObj.loading}
+            >
               Testar conhecimento
+              {loadingObj.action === 'question' && loadingObj.loading && (
+                <>
+                  <div style={{ width: '8px' }}></div>
+                  <Spinner />
+                </>
+              )}
             </button>
           </div>
         )}

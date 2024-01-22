@@ -19,6 +19,10 @@ let jsonBuffer = []
 let errorBuffer = [] as any[]
 let jsonObj = null as any
 
+function sleep(ms: number = 2_000) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export const chatbotService = {
   historyList: async (email: string): Promise<IDialogue[]> => {
     try {
@@ -27,6 +31,8 @@ export const chatbotService = {
           email,
         },
       })
+
+      await sleep()
 
       const mappedData = handleDataHistoryList(data)
 
@@ -96,6 +102,8 @@ export const chatbotService = {
     try {
       await chatBotAPI.post('/persist_feedback', payload)
 
+      await sleep()
+
       return true
     } catch (error) {
       // @TODO: error handling
@@ -113,6 +121,8 @@ export const chatbotService = {
           question_type: questionType,
         },
       })
+
+      await sleep()
 
       const mappedData = handleDataGenerateQuestionFromAnswer({
         'id': '0e04becd-7207-4b78-b211-479ecf2f4c50',
@@ -167,6 +177,8 @@ export const chatbotService = {
   saveGeneratedQuestionAnswer: async (payload: ISaveGeneratedQuestionPayload) => {
     try {
       await chatBotAPI.post('/persist_answer', payload)
+
+      await sleep()
 
       return true
     } catch (error) {
