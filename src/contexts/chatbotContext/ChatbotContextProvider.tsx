@@ -21,6 +21,7 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   // ----- History -----
 
   const [chatbotHistory, setChatbotHistory] = useState<IChatbotHistory[]>([])
+  const [chatbotHistoryLoading, setChatbotHistoryLoading] = useState(false)
 
   const addHistoryToChatbot = (history: IChatbotHistory) => {
     setChatbotHistory(currentValue => [...currentValue, history])
@@ -33,39 +34,49 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await chatbotService.historyList(userEmail)
+    try {
+      const fetchData = async () => {
+        setChatbotHistoryLoading(true)
 
-      data.forEach(dialogue => {
-        const {
-          id: dialogue_id,
-          email,
-          creation_date,
-          question,
-          answer,
-        } = dialogue
+        const data = await chatbotService.historyList(userEmail)
 
-        const userHistory: IChatbotHistory = {
-          dialogue_id,
-          email,
-          type: 'user',
-          creation_date,
-          question,
-        }
+        data.forEach(dialogue => {
+          const {
+            id: dialogue_id,
+            email,
+            creation_date,
+            question,
+            answer,
+          } = dialogue
 
-        const botHistory: IChatbotHistory = {
-          dialogue_id,
-          email,
-          type: 'chatbot',
-          creation_date,
-          answer,
-        }
+          const userHistory: IChatbotHistory = {
+            dialogue_id,
+            email,
+            type: 'user',
+            creation_date,
+            question,
+          }
 
-        addHistoryToChatbot(userHistory)
-        addHistoryToChatbot(botHistory)
-      })
+          const botHistory: IChatbotHistory = {
+            dialogue_id,
+            email,
+            type: 'chatbot',
+            creation_date,
+            answer,
+          }
+
+          addHistoryToChatbot(userHistory)
+          addHistoryToChatbot(botHistory)
+        })
+
+        setChatbotHistoryLoading(false)
+      }
+
+      fetchData()
     }
-    fetchData()
+    catch (error) {
+      setChatbotHistoryLoading(false)
+    }
   }, [])
 
   const registerQuestionAndAnswerChatbot = async (text: string) => {
@@ -162,6 +173,7 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
       toggleEnableBotVoice,
 
       chatbotHistory,
+      chatbotHistoryLoading,
       setChatbotHistory,
 
       registerQuestionAndAnswerChatbot,

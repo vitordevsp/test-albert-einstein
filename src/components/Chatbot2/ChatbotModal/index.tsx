@@ -1,23 +1,15 @@
-import { Icon, Tag } from '../..'
 import { InputChatbot } from './components/InputChatbot'
 import { MessageChatbot } from './components/MessageChatbot'
+import { Icon, Spinner } from '../..'
 import { useChatbotContext } from '../../../contexts/chatbotContext/useChatbotContext'
 import './style.css'
-import { useEffect } from 'react'
 
 interface ChatbotModalProps {
   onClose?: () => void
 }
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
-  const { chatbotHistory } = useChatbotContext()
-
-  useEffect(() => {
-    const mainElement = document.getElementById('chatbot-modal-main')
-    if (!mainElement) return
-
-    mainElement.scrollTop = mainElement.scrollHeight
-  }, [])
+  const { chatbotHistory, chatbotHistoryLoading } = useChatbotContext()
 
   return (
     <>
@@ -33,17 +25,22 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
         </header>
 
         <main id='chatbot-modal-main'>
-          <div>
-            <MessageChatbot
-              history={{
-                type: 'chatbot',
-                answer: {
-                  value: 'Olá, fique a vontade para me fazer uma pergunta.',
-                },
-              }}
-              hiddeActions
-            />
-          </div>
+          <MessageChatbot
+            history={{
+              type: 'chatbot',
+              answer: {
+                value: 'Olá, fique a vontade para me fazer uma pergunta.',
+              },
+            }}
+            hiddeActions
+          />
+
+          {chatbotHistoryLoading && (
+            <div className='chatbot-modal-main-loading'>
+              <b>Carregando histórico</b>
+              <Spinner />
+            </div>
+          )}
 
           {chatbotHistory.map((history, idx) => (
             <MessageChatbot

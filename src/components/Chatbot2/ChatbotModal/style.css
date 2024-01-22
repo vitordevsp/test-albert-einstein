@@ -45,6 +45,14 @@
   gap: 32px;
 }
 
+.chatbot-modal-main-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-right: 24px;
+}
+
 .chatbot-modal main .suggested-questions {
   display: flex;
   flex-direction: column;

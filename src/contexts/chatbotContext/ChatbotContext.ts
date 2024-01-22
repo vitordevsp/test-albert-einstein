@@ -12,6 +12,7 @@ export interface ChatbotContextProps {
   toggleEnableBotVoice: () => void
 
   chatbotHistory: IChatbotHistory[]
+  chatbotHistoryLoading: boolean
   setChatbotHistory: Dispatch<SetStateAction<IChatbotHistory[]>>
 
   registerQuestionAndAnswerChatbot: (text: string) => Promise<void>
