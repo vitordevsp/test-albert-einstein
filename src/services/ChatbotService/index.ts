@@ -19,7 +19,7 @@ let jsonBuffer = []
 let errorBuffer = [] as any[]
 let jsonObj = null as any
 
-function sleep(ms: number = 2_000) {
+function sleep(ms: number = 3_000) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
@@ -176,9 +176,9 @@ export const chatbotService = {
 
   saveGeneratedQuestionAnswer: async (payload: ISaveGeneratedQuestionPayload) => {
     try {
-      await chatBotAPI.post('/persist_answer', payload)
-
       await sleep()
+
+      await chatBotAPI.post('/persist_answer', payload)
 
       return true
     } catch (error) {

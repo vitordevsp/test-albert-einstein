@@ -20,12 +20,12 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
     setOptionSelected(option)
   }
 
-  const handleQuestionAnswer = () => {
+  const handleQuestionAnswer = async () => {
     if (!optionSeleted) return
 
     setLoading(true)
 
-    saveGeneratedQuestionAnswer(optionSeleted)
+    await saveGeneratedQuestionAnswer(optionSeleted)
     setQuestionAnswered(true)
 
     setLoading(false)

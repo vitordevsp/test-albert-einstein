@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { InputChatbot } from './components/InputChatbot'
 import { MessageChatbot } from './components/MessageChatbot'
 import { Icon, Spinner } from '../..'
@@ -10,6 +11,12 @@ interface ChatbotModalProps {
 
 export function ChatbotModal({ onClose }: ChatbotModalProps) {
   const { chatbotHistory, chatbotHistoryLoading } = useChatbotContext()
+
+  useEffect(() => {
+    const mainElement = document.getElementById('chatbot-modal-main')
+    if (!mainElement) return
+    mainElement.scrollTop = mainElement.scrollHeight
+  }, [])
 
   return (
     <>

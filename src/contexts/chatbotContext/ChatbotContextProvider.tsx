@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ChatbotContext } from './ChatbotContext'
 import { chatbotService } from '../../services/ChatbotService'
 import { IChatbotHistory, IQuestionOption } from '../../interfaces/chatBot'
+import { ISaveGeneratedQuestionPayload } from '../../interfaces/chatBotAPI'
 
 interface ChatbotContextProviderProps {
   children: React.ReactNode
@@ -27,9 +28,9 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     setChatbotHistory(currentValue => [...currentValue, history])
 
     setTimeout(() => {
-      const mainTest = document.getElementById('chatbot-modal-main')
-      if (!mainTest) return
-      mainTest.scrollTop = mainTest.scrollHeight
+      const mainElement = document.getElementById('chatbot-modal-main')
+      if (!mainElement) return
+      mainElement.scrollTop = mainElement.scrollHeight
     }, 200)
   }
 
@@ -159,6 +160,14 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
 
   const saveGeneratedQuestionAnswer = async (option: IQuestionOption) => {
     console.log('saveGeneratedQuestionAnswer: ', option)
+
+    const payload: ISaveGeneratedQuestionPayload = {
+      question_id: '',
+      answer_id: '',
+      origin: '',
+    }
+
+    await chatbotService.saveGeneratedQuestionAnswer(payload)
   }
 
   return (
