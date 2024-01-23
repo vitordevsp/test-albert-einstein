@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { SlDislike, SlLike } from 'react-icons/sl'
 import { useChatbotContext } from '../../../../../contexts/chatbotContext/useChatbotContext'
 import { IChatbotHistory } from '../../../../../interfaces/chatBot'
@@ -18,31 +19,55 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
   const { evaluateResponseMessage, generateQuestionFromAnswer } = useChatbotContext()
 
   const handleEvaluateResponseMessage = async (like: 'true' | 'false', history: IChatbotHistory) => {
-    setLoadingObj({
-      action: like,
-      loading: true,
-    })
+    try {
+      setLoadingObj({
+        action: like,
+        loading: true,
+      })
 
-    await evaluateResponseMessage(like, history)
+      await evaluateResponseMessage(like, history)
 
-    setLoadingObj({
-      action: like,
-      loading: false,
-    })
+      setLoadingObj({
+        action: like,
+        loading: false,
+      })
+    }
+    catch (error) {
+      toast.error('Erro ao avaliar a resposta do bot.')
+      console.error('handleEvaluateResponseMessage: ', error)
+    }
+    finally {
+      setLoadingObj({
+        action: like,
+        loading: false,
+      })
+    }
   }
 
   const handleGenerateQuestionFromAnswer = async (history: IChatbotHistory) => {
-    setLoadingObj({
-      action: 'question',
-      loading: true,
-    })
+    try {
+      setLoadingObj({
+        action: 'question',
+        loading: true,
+      })
 
-    await generateQuestionFromAnswer(history)
+      await generateQuestionFromAnswer(history)
 
-    setLoadingObj({
-      action: 'question',
-      loading: false,
-    })
+      setLoadingObj({
+        action: 'question',
+        loading: false,
+      })
+    }
+    catch (error) {
+      toast.error('Erro ao gerar a pergunta para testar o conhecimento.')
+      console.error('handleEvaluateResponseMessage: ', error)
+    }
+    finally {
+      setLoadingObj({
+        action: 'question',
+        loading: false,
+      })
+    }
   }
 
   return (
@@ -88,6 +113,7 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
               disabled={loadingObj.action === 'question' && loadingObj.loading}
             >
               Testar conhecimento
+
               {loadingObj.action === 'question' && loadingObj.loading && (
                 <>
                   <div style={{ width: '8px' }}></div>
