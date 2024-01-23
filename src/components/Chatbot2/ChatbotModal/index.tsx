@@ -15,7 +15,9 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
   useEffect(() => {
     const mainElement = document.getElementById('chatbot-modal-main')
     if (!mainElement) return
+    mainElement.style.scrollBehavior = 'initial'
     mainElement.scrollTop = mainElement.scrollHeight
+    mainElement.style.scrollBehavior = 'smooth'
   }, [])
 
   return (

@@ -38,9 +38,9 @@ export function InputChatbot() {
         autoFocus
       />
 
-      <button type='button' onClick={toggleEnableBotVoice}>
+      {/* <button type='button' onClick={toggleEnableBotVoice}>
         <Icon name={enableBotVoice ? 'microphone' : 'outlineMicrophone'} />
-      </button>
+      </button> */}
 
       <button type='submit'>
         <Icon name='send' />
