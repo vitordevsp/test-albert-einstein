@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useChatbotContext } from '../../../../../contexts/chatbotContext/useChatbotContext'
 import { IChatbotHistory, IQuestionOption } from '../../../../../interfaces/chatBot'
@@ -16,6 +16,14 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
   const [optionSeleted, setOptionSelected] = useState<IQuestionOption | null>(null)
   const [questionAnswered, setQuestionAnswered] = useState(false)
 
+  useEffect(() => {
+    if (history.generated_question?.selected_option) {
+      const { selected_option } = history.generated_question
+      setOptionSelected(selected_option)
+      setQuestionAnswered(true)
+    }
+  }, [history])
+
   const handleAnswerSelection = (option: IQuestionOption) => {
     if (questionAnswered) return
     setOptionSelected(option)
@@ -28,15 +36,16 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
     }
 
     try {
+      const dialogueId = history.dialogue_id || ''
       setLoading(true)
 
-      await saveGeneratedQuestionAnswer(optionSeleted)
+      await saveGeneratedQuestionAnswer(dialogueId, optionSeleted)
       setQuestionAnswered(true)
     }
     catch (error) {
       toast.error('Erro ao persistir a resposta.')
       setQuestionAnswered(true) // remover quando a API funcionar
-      console.error('handleQuestionAnswer: ', error)
+      console.error('MessageBodyQuestion > handleQuestionAnswer: ', error)
     }
     finally {
       setLoading(false)

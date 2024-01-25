@@ -30,6 +30,7 @@ export function InputChatbot() {
     }
     catch (error) {
       toast.error('Erro ao processar a resposta.')
+      console.error('InputChatbot > handleSubmit:', error)
     }
   }
 

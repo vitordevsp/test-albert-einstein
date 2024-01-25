@@ -40,6 +40,7 @@ export interface IQuestionOption {
 export interface IQuestionGenereted {
   title?: string
   options?: IQuestionOption[]
+  selected_option?: IQuestionOption
 }
 
 export interface IQuestion {

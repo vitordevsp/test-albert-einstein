@@ -80,6 +80,7 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     }
     catch (error) {
       setChatbotHistoryLoading(false)
+      console.error('ChatbotContextProvider > useEffect: ', error)
     }
   }, [])
 
@@ -151,7 +152,9 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
               return newValue
             })
           }
-          catch (error) { }
+          catch (error) {
+            console.error('ChatbotContextProvider > sendMessageAndReceiveResponse: ', error)
+          }
 
           return
         }
@@ -242,7 +245,25 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     addHistoryToChatbot(questionHistory)
   }
 
-  const saveGeneratedQuestionAnswer = async (option: IQuestionOption) => {
+  const saveGeneratedQuestionAnswer = async (dialogueId: string, option: IQuestionOption) => {
+    setChatbotHistory(currentValue => {
+      const newValue = currentValue.map(history => {
+        if (history.type === 'question' && history.dialogue_id === dialogueId) {
+          const newHistory: IChatbotHistory = {
+            ...history,
+            generated_question: {
+              ...history.generated_question,
+              selected_option: option,
+            },
+          }
+          return newHistory
+        }
+        return history
+      })
+
+      return newValue
+    })
+
     const payload: ISaveGeneratedQuestionPayload = {
       question_id: '',
       answer_id: '',

@@ -33,7 +33,7 @@ export function MessageBodyBot({ history }: MessageBodyBotProps) {
     }
     catch (error) {
       toast.error('Erro ao avaliar a resposta do bot.')
-      console.error('handleEvaluateResponseMessage: ', error)
+      console.error('MessageBodyBot > handleEvaluateResponseMessage: ', error)
     }
     finally {
       setLoadingObj({
@@ -59,7 +59,7 @@ export function MessageBodyBot({ history }: MessageBodyBotProps) {
     }
     catch (error) {
       toast.error('Erro ao gerar a pergunta para testar o conhecimento.')
-      console.error('handleEvaluateResponseMessage: ', error)
+      console.error('MessageBodyBot > handleEvaluateResponseMessage: ', error)
     }
     finally {
       setLoadingObj({

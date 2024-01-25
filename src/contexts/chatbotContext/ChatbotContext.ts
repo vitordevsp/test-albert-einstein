@@ -18,7 +18,7 @@ export interface ChatbotContextProps {
   registerQuestionAndAnswerChatbot: (text: string) => Promise<void>
   evaluateResponseMessage: (like: 'true' | 'false', history: IChatbotHistory) => Promise<void>
   generateQuestionFromAnswer: (history: IChatbotHistory) => Promise<void>
-  saveGeneratedQuestionAnswer: (option: IQuestionOption) => Promise<void>
+  saveGeneratedQuestionAnswer: (dialogueId: string, option: IQuestionOption) => Promise<void>
 }
 
 export const ChatbotContext = createContext({} as ChatbotContextProps)
