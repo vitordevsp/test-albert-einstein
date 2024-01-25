@@ -12,14 +12,14 @@
 .chatbot-modal {
   width: 100%;
   max-width: 550px;
-  height: 580px;
+  height: 85dvh;
   border-radius: 24px;
   background: #dddddd;
   overflow: hidden;
 
   position: fixed;
-  right: 70px;
-  bottom: 70px;
+  right: 5vw;
+  bottom: 7dvh;
 
   display: flex;
   flex-direction: column;
