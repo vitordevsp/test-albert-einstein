@@ -119,7 +119,7 @@ export function MessageBodyBot({ history }: MessageBodyBotProps) {
               Testar conhecimento
 
               {loadingObj.action === 'question' && loadingObj.loading && (
-                <Spinner style={{ width: '8px' }} />
+                <Spinner style={{ marginLeft: '8px' }} />
               )}
             </button>
           </div>

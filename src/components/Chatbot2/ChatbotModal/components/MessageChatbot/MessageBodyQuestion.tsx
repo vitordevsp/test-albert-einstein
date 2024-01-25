@@ -22,7 +22,10 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
   }
 
   const handleQuestionAnswer = async () => {
-    if (!optionSeleted) return
+    if (!optionSeleted) {
+      toast.warn('Selecione uma opção.')
+      return
+    }
 
     try {
       setLoading(true)
@@ -78,14 +81,12 @@ export function MessageBodyQuestion({ history }: MessageBodyQuestionProps) {
             <div className='message-chatbot__action'>
               <button
                 onClick={handleQuestionAnswer}
-                disabled={loading || !optionSeleted}
+                disabled={loading}
               >
                 Responder
+
                 {loading && (
-                  <>
-                    <div style={{ width: '8px' }}></div>
-                    <Spinner />
-                  </>
+                  <Spinner style={{ marginLeft: '8px' }} />
                 )}
               </button>
             </div>

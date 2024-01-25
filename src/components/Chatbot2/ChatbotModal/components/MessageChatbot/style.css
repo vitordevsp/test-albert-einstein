@@ -51,12 +51,16 @@
   border-top-right-radius: 6px;
 }
 
-.message-chatbot__action button:hover {
+.message-chatbot__action button:disabled {
+  background-color: #d4d4d4;
+}
+
+.message-chatbot__action button:not(:disabled):hover {
   background-color: #d4d4d4;
   transform: translate(0, 1px);
 }
 
-.message-chatbot__action button:active {
+.message-chatbot__action button:not(:disabled):active {
   background-color: #d4d4d4;
   transform: translate(0, 2px);
 }
@@ -64,7 +68,7 @@
 .message-chatbot__list-options {
   list-style: none;
   padding: 0;
-  margin: 16px 0;
+  margin: 16px 0 8px;
 
   display: flex;
   flex-direction: column;
