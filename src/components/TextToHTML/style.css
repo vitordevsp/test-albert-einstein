@@ -1,0 +1,11 @@
+.text-to-html p {
+  margin-bottom: 12px;
+}
+
+.text-to-html>p:last-child {
+  margin-bottom: 0;
+}
+
+ol, ul {
+  padding-left: 2rem;
+}

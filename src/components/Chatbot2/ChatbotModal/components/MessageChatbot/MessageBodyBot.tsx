@@ -1,9 +1,9 @@
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { SlDislike, SlLike } from 'react-icons/sl'
 import { useChatbotContext } from '../../../../../contexts/chatbotContext/useChatbotContext'
 import { IChatbotHistory } from '../../../../../interfaces/chatBot'
-import { useState } from 'react'
-import { Spinner } from '../../../..'
+import { Spinner, TextToHTML } from '../../../..'
 
 interface MessageBodyBotProps {
   history: IChatbotHistory
@@ -86,11 +86,7 @@ export function MessageBodyBot({ history }: MessageBodyBotProps) {
             <Spinner />
           )
           : (
-            <p
-              dangerouslySetInnerHTML={{
-                __html: history.answer?.value || 'indefinido...',
-              }}
-            />
+            <TextToHTML text={history.answer?.value || '("indefinido")'} />
           )
         }
 

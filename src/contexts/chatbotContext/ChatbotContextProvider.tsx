@@ -205,7 +205,6 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     }
 
     addHistoryToChatbot(historyResponse)
-
     sendMessageAndReceiveResponse(text, userEmail, temporaryUUID)
   }
 

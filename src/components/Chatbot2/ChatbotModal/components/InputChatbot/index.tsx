@@ -18,14 +18,19 @@ export function InputChatbot() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!chatbotInput) {
-      toast.warning('Digite uma mensagem!')
-      inputRef.current?.focus()
-      return
-    }
+    try {
+      if (!chatbotInput) {
+        toast.warning('Digite uma mensagem!')
+        inputRef.current?.focus()
+        return
+      }
 
-    registerQuestionAndAnswerChatbot(chatbotInput)
-    inputRef.current?.focus()
+      registerQuestionAndAnswerChatbot(chatbotInput)
+      inputRef.current?.focus()
+    }
+    catch (error) {
+      toast.error('Erro ao processar a resposta.')
+    }
   }
 
   return (
