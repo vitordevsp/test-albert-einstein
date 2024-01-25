@@ -18,6 +18,7 @@ export function handleDataHistoryList(data: IDialogueResponse[]): IDialogue[] {
 
     const questionValue = typeof questionProp?.value === 'string' ? questionProp.value : undefined
     const answerValue = typeof answerProp?.value === 'string' ? answerProp.value : undefined
+    const hiddeActions = !answerValue
 
     let evaluationAction: IDialogueEvaluationAction = undefined
     if (evaluationLikeProp) evaluationAction = 'like'
@@ -47,6 +48,8 @@ export function handleDataHistoryList(data: IDialogueResponse[]): IDialogue[] {
         id: undefined,
         value: answerValue,
         sources: undefined,
+        is_loading: false,
+        hidde_actions: hiddeActions,
         evaluation: {
           action: evaluationAction,
           ...evaluationProperties,

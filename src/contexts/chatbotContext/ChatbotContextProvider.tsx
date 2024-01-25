@@ -83,6 +83,101 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     }
   }, [])
 
+  const sendMessageAndReceiveResponse = async (text: string, email: string, temporaryUUID: string) => {
+    const reader = await chatbotService.sendMessageAndReceiveResponse(text, email)
+
+    let completeText = ''
+    let jsonString = ''
+
+    reader?.read()
+      .then(function processText({ done, value: chunk }): any {
+        const chunkText = new TextDecoder().decode(chunk)
+        const isJson = chunkText.includes('{')
+
+        if (isJson) {
+          jsonString = chunkText
+        }
+        else {
+          completeText += chunkText
+        }
+
+        setChatbotHistory(currentValue => {
+          const newValue = [...currentValue]
+          const lastHistory = newValue.pop()
+
+          if (lastHistory && lastHistory.dialogue_id === temporaryUUID) {
+            lastHistory.answer = {
+              ...lastHistory.answer,
+              value: completeText,
+              is_loading: false,
+            }
+
+            newValue.push(lastHistory)
+          }
+
+          return newValue
+        })
+
+        scrollChatbotToTheEnd()
+
+        if (done) {
+          try {
+            const {
+              id: dialogue_id,
+              email,
+              creation_date,
+            }: IDialogueResponse = JSON.parse(jsonString)
+
+            setChatbotHistory(currentValue => {
+              const newValue = currentValue.map(history => {
+                if (history.dialogue_id === temporaryUUID) {
+                  const newHistory: IChatbotHistory = {
+                    ...history,
+                    dialogue_id,
+                    email,
+                    creation_date,
+                    answer: {
+                      ...history.answer,
+                      hidde_actions: false,
+                    },
+                  }
+
+                  return newHistory
+                }
+
+                return history
+              })
+
+              return newValue
+            })
+          }
+          catch (error) { }
+
+          return
+        }
+
+        return reader.read().then(processText)
+      })
+      .catch(() => {
+        setChatbotHistory(currentValue => {
+          const newValue = [...currentValue]
+          const lastHistory = newValue.pop()
+
+          if (lastHistory && lastHistory.dialogue_id === temporaryUUID) {
+            lastHistory.answer = {
+              ...lastHistory.answer,
+              value: 'Erro ao gerar a resposta...',
+              is_loading: false,
+            }
+
+            newValue.push(lastHistory)
+          }
+
+          return newValue
+        })
+      })
+  }
+
   const registerQuestionAndAnswerChatbot = async (text: string) => {
     const temporaryUUID = crypto.randomUUID()
 
@@ -98,90 +193,20 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
     addHistoryToChatbot(historyQuestion)
     setChatbotInput('')
 
-    const reader = await chatbotService.sendMessage(text, userEmail)
+    const historyResponse: IChatbotHistory = {
+      type: 'chatbot',
+      dialogue_id: temporaryUUID,
+      answer: {
+        id: undefined,
+        value: undefined,
+        is_loading: true,
+        hidde_actions: true,
+      },
+    }
 
-    let completeText = ''
-    let jsonString = ''
-    let isFirstChunk = true
+    addHistoryToChatbot(historyResponse)
 
-    reader?.read().then(function processText({ done, value: chunk }): any {
-      const chunkText = new TextDecoder().decode(chunk)
-      const isJson = chunkText.includes('{')
-
-      if (isJson) {
-        jsonString = chunkText
-      }
-      else {
-        completeText += chunkText
-      }
-
-      if (isFirstChunk) {
-        const historyResponse: IChatbotHistory = {
-          type: 'chatbot',
-          dialogue_id: temporaryUUID,
-          answer: {
-            id: undefined,
-            value: completeText,
-          },
-        }
-
-        addHistoryToChatbot(historyResponse)
-        isFirstChunk = false
-      }
-      else {
-        setChatbotHistory(currentValue => {
-          const newValue = [...currentValue]
-          const lastHistory = newValue.pop()
-
-          if (lastHistory && lastHistory.dialogue_id === temporaryUUID) {
-            lastHistory.answer = {
-              ...lastHistory.answer,
-              value: completeText,
-            }
-
-            newValue.push(lastHistory)
-          }
-
-          return newValue
-        })
-
-        scrollChatbotToTheEnd()
-      }
-
-      if (done) {
-        try {
-          const {
-            id: dialogue_id,
-            email,
-            creation_date,
-          }: IDialogueResponse = JSON.parse(jsonString)
-
-          setChatbotHistory(currentValue => {
-            const newValue = currentValue.map(history => {
-              if (history.dialogue_id === temporaryUUID) {
-                const newHistory: IChatbotHistory = {
-                  ...history,
-                  dialogue_id,
-                  email,
-                  creation_date,
-                }
-
-                return newHistory
-              }
-
-              return history
-            })
-
-            return newValue
-          })
-        }
-        catch (error) { }
-
-        return
-      }
-
-      return reader.read().then(processText)
-    })
+    sendMessageAndReceiveResponse(text, userEmail, temporaryUUID)
   }
 
   const evaluateResponseMessage = async (like: 'true' | 'false', history: IChatbotHistory) => {

@@ -33,7 +33,10 @@ export const chatbotService = {
     }
   },
 
-  sendMessage: async (input: string, email: string): Promise<ReadableStreamDefaultReader<Uint8Array> | undefined> => {
+  sendMessageAndReceiveResponse: async (
+    input: string,
+    email: string,
+  ): Promise<ReadableStreamDefaultReader<Uint8Array> | undefined> => {
     const params = new URLSearchParams({ input, email }).toString()
     const endpoint = `http://localhost:8000/stream_response?${params}`
 

@@ -7,10 +7,9 @@ import { Spinner } from '../../../..'
 
 interface MessageBodyBotProps {
   history: IChatbotHistory
-  hiddeActions?: boolean
 }
 
-export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
+export function MessageBodyBot({ history }: MessageBodyBotProps) {
   const [loadingObj, setLoadingObj] = useState({
     action: '',
     loading: false,
@@ -82,11 +81,20 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
           Bot Albertinho
         </span>
 
-        <p>
-          {history.answer?.value}
-        </p>
+        {history.answer?.is_loading
+          ? (
+            <Spinner />
+          )
+          : (
+            <p
+              dangerouslySetInnerHTML={{
+                __html: history.answer?.value || 'indefinido...',
+              }}
+            />
+          )
+        }
 
-        {!hiddeActions && (
+        {!history.answer?.hidde_actions && (
           <div className='message-chatbot__action'>
             <button
               onClick={() => handleEvaluateResponseMessage('true', history)}
@@ -115,10 +123,7 @@ export function MessageBodyBot({ history, hiddeActions }: MessageBodyBotProps) {
               Testar conhecimento
 
               {loadingObj.action === 'question' && loadingObj.loading && (
-                <>
-                  <div style={{ width: '8px' }}></div>
-                  <Spinner />
-                </>
+                <Spinner style={{ width: '8px' }} />
               )}
             </button>
           </div>

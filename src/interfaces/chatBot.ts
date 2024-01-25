@@ -3,6 +3,8 @@ export type IDialogueEvaluationAction = undefined | 'like' | 'dislike'
 export interface IDialogueAnswer {
   id?: undefined
   value?: string
+  is_loading?: boolean
+  hidde_actions?: boolean
   sources?: {
     content: string
     metadata_list: string[]

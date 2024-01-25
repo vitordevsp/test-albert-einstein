@@ -6,24 +6,22 @@ import './style.css'
 
 interface MessageChatbotProps {
   history: IChatbotHistory
-  hiddeActions?: boolean
 }
 
-export function MessageChatbot({ history, hiddeActions }: MessageChatbotProps) {
+export function MessageChatbot({ history }: MessageChatbotProps) {
+  const messagesBodyObj = {
+    user: MessageBodyUser,
+    chatbot: MessageBodyBot,
+    question: MessageBodyQuestion,
+  }
+
+  const Component = messagesBodyObj[history.type]
+
+  if (!Component) return null
+
   return (
     <div className="message-chatbot">
-      {history.type === 'user'
-        ? (
-          <MessageBodyUser history={history} />
-        )
-        : history.type === 'chatbot'
-          ? (
-            <MessageBodyBot history={history} hiddeActions={hiddeActions} />
-          )
-          : (
-            <MessageBodyQuestion history={history} />
-          )
-      }
+      <Component history={history} />
     </div>
   )
 }

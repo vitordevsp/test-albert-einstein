@@ -39,9 +39,9 @@ export function ChatbotModal({ onClose }: ChatbotModalProps) {
               type: 'chatbot',
               answer: {
                 value: 'Olá, fique a vontade para me fazer uma pergunta.',
+                hidde_actions: true,
               },
             }}
-            hiddeActions
           />
 
           {chatbotHistoryLoading && (
