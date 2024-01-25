@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ChatbotContext } from './ChatbotContext'
 import { chatbotService } from '../../services/ChatbotService'
 import { IChatbotHistory, IQuestionOption } from '../../interfaces/chatBot'
-import { ISaveGeneratedQuestionPayload } from '../../interfaces/chatBotAPI'
+import { IDialogueResponse, ISaveGeneratedQuestionPayload } from '../../interfaces/chatBotAPI'
 
 interface ChatbotContextProviderProps {
   children: React.ReactNode
@@ -24,14 +24,17 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   const [chatbotHistory, setChatbotHistory] = useState<IChatbotHistory[]>([])
   const [chatbotHistoryLoading, setChatbotHistoryLoading] = useState(false)
 
-  const addHistoryToChatbot = (history: IChatbotHistory) => {
-    setChatbotHistory(currentValue => [...currentValue, history])
-
+  const scrollChatbotToTheEnd = () => {
     setTimeout(() => {
       const mainElement = document.getElementById('chatbot-modal-main')
       if (!mainElement) return
       mainElement.scrollTop = mainElement.scrollHeight
     }, 200)
+  }
+
+  const addHistoryToChatbot = (history: IChatbotHistory) => {
+    setChatbotHistory(currentValue => [...currentValue, history])
+    scrollChatbotToTheEnd()
   }
 
   useEffect(() => {
@@ -81,62 +84,119 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   }, [])
 
   const registerQuestionAndAnswerChatbot = async (text: string) => {
-    console.log('registerQuestionAndAnswerChatbot:', text)
+    const temporaryUUID = crypto.randomUUID()
 
     const historyQuestion: IChatbotHistory = {
       type: 'user',
+      dialogue_id: temporaryUUID,
       question: {
         id: undefined,
         value: text,
       },
     }
 
-    setChatbotHistory(currentValue => [...currentValue, historyQuestion])
+    addHistoryToChatbot(historyQuestion)
     setChatbotInput('')
 
-    const response = await chatbotService.sendMessage(text, userEmail)
+    const reader = await chatbotService.sendMessage(text, userEmail)
 
-    console.log('response: ', response)
+    let completeText = ''
+    let jsonString = ''
+    let isFirstChunk = true
 
-    // const answerObj = await questionsService.get(text)
+    reader?.read().then(function processText({ done, value: chunk }): any {
+      const chunkText = new TextDecoder().decode(chunk)
+      const isJson = chunkText.includes('{')
 
-    // if (answerObj) {
-    //   const historyAnswer: ChatbotHistoryProps = {
-    //     name: 'Chatbot Albertinho',
-    //     text: answerObj.answer,
-    //     type: 'chatbot',
-    //   }
+      if (isJson) {
+        jsonString = chunkText
+      }
+      else {
+        completeText += chunkText
+      }
 
-    //   setChatbotHistory(currentValue => [...currentValue, historyAnswer])
-    // }
-    // else {
-    //   const historyAnswer: ChatbotHistoryProps = {
-    //     name: 'Chatbot Albertinho',
-    //     text: 'Infelizmente não estou preparado para responder essa pergunta.',
-    //     type: 'chatbot',
-    //   }
+      if (isFirstChunk) {
+        const historyResponse: IChatbotHistory = {
+          type: 'chatbot',
+          dialogue_id: temporaryUUID,
+          answer: {
+            id: undefined,
+            value: completeText,
+          },
+        }
 
-    //   setChatbotHistory(currentValue => [...currentValue, historyAnswer])
-    // }
+        addHistoryToChatbot(historyResponse)
+        isFirstChunk = false
+      }
+      else {
+        setChatbotHistory(currentValue => {
+          const newValue = [...currentValue]
+          const lastHistory = newValue.pop()
+
+          if (lastHistory && lastHistory.dialogue_id === temporaryUUID) {
+            lastHistory.answer = {
+              ...lastHistory.answer,
+              value: completeText,
+            }
+
+            newValue.push(lastHistory)
+          }
+
+          return newValue
+        })
+
+        scrollChatbotToTheEnd()
+      }
+
+      if (done) {
+        try {
+          const {
+            id: dialogue_id,
+            email,
+            creation_date,
+          }: IDialogueResponse = JSON.parse(jsonString)
+
+          setChatbotHistory(currentValue => {
+            const newValue = currentValue.map(history => {
+              if (history.dialogue_id === temporaryUUID) {
+                const newHistory: IChatbotHistory = {
+                  ...history,
+                  dialogue_id,
+                  email,
+                  creation_date,
+                }
+
+                return newHistory
+              }
+
+              return history
+            })
+
+            return newValue
+          })
+        }
+        catch (error) { }
+
+        return
+      }
+
+      return reader.read().then(processText)
+    })
   }
 
   const evaluateResponseMessage = async (like: 'true' | 'false', history: IChatbotHistory) => {
-    console.log('evaluateResponseMessage: ', like, history)
-
-    // @TODO: validar os dados antes de fazer a chamada
-
     await chatbotService.evaluateResponseMessage({
       id: history.answer?.id || '',
       email: history.email || '',
       memory_id: history.dialogue_id || '',
       like,
     })
+
+    // @TODO: alterar o estado local da avaliação
   }
 
   const generateQuestionFromAnswer = async (history: IChatbotHistory) => {
     const dialogueId = history.dialogue_id || ''
-
-    // @TODO: validar os dados antes de fazer a chamada
 
     const response = await chatbotService.generateQuestionFromAnswer(dialogueId)
 
@@ -159,8 +219,6 @@ export function ChatbotContextProvider({ children }: ChatbotContextProviderProps
   }
 
   const saveGeneratedQuestionAnswer = async (option: IQuestionOption) => {
-    console.log('saveGeneratedQuestionAnswer: ', option)
-
     const payload: ISaveGeneratedQuestionPayload = {
       question_id: '',
       answer_id: '',

@@ -11,15 +11,15 @@ export function InputChatbot() {
     chatbotInput,
     setChatbotInput,
     registerQuestionAndAnswerChatbot,
-    enableBotVoice,
-    toggleEnableBotVoice,
+    // enableBotVoice,
+    // toggleEnableBotVoice,
   } = useChatbotContext()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!chatbotInput) {
-      toast('Digite uma mensagem!')
+      toast.warning('Digite uma mensagem!')
       inputRef.current?.focus()
       return
     }

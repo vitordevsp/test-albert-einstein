@@ -11,14 +11,6 @@ import {
   ISaveGeneratedQuestionPayload,
 } from '../../interfaces/chatBotAPI'
 
-let isBotResponding = false
-let isJson = false
-let isError = false
-let botResponseChunks = []
-let jsonBuffer = []
-let errorBuffer = [] as any[]
-let jsonObj = null as any
-
 function sleep(ms: number = 3_000) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -32,8 +24,6 @@ export const chatbotService = {
         },
       })
 
-      await sleep()
-
       const mappedData = handleDataHistoryList(data)
 
       return mappedData
@@ -43,66 +33,19 @@ export const chatbotService = {
     }
   },
 
-  sendMessage: async (input: string, email: string) => {
-    return fetch('http://localhost:8000/stream_response?' + new URLSearchParams({ input, email }).toString())
-      .then((response) => { // Retrieve its body as ReadableStream
-        const reader = response.body?.getReader()
-        // read() returns a promise that resolves when a value has been received
-        reader?.read().then(function pump({ done, value }: any): any {
-          const chunk = new TextDecoder().decode(value)
+  sendMessage: async (input: string, email: string): Promise<ReadableStreamDefaultReader<Uint8Array> | undefined> => {
+    const params = new URLSearchParams({ input, email }).toString()
+    const endpoint = `http://localhost:8000/stream_response?${params}`
 
-          if (done) {
-            // Do something with last chunk of data then exit reader
-            console.log('fim')
+    const response = await fetch(endpoint)
+    const readableStream = response.body?.getReader()
 
-            isBotResponding = false
-            botResponseChunks = []
-
-            if (jsonBuffer.length > 0) {
-              console.log('appendMemoryAndSources: ', JSON.parse(jsonObj))
-            }
-
-            if (errorBuffer.length > 0) {
-              console.log('handleErrorResponse: ', errorBuffer.join(''))
-            }
-
-            jsonBuffer = []
-            errorBuffer = []
-            isJson = false
-
-            return
-          }
-
-          isBotResponding = true
-          if (chunk.includes('{')) {
-            isJson = true
-            jsonObj = chunk
-          }
-          if (chunk === 'is_error') {
-            isError = true
-            return
-          }
-
-          if (isJson) {
-            jsonBuffer.push(chunk)
-          } else if (isError) {
-            errorBuffer.push(chunk)
-          } else {
-            botResponseChunks.push(chunk)
-            console.log('Bot', chunk)
-          }
-
-          return reader.read().then(pump)
-        })
-      })
-      .catch((err) => console.error(err))
+    return readableStream
   },
 
   evaluateResponseMessage: async (payload: IEvaluateResponseMessagePayload): Promise<true> => {
     try {
       await chatBotAPI.post('/persist_feedback', payload)
-
-      await sleep()
 
       return true
     } catch (error) {
@@ -121,8 +64,6 @@ export const chatbotService = {
           question_type: questionType,
         },
       })
-
-      await sleep()
 
       const mappedData = handleDataGenerateQuestionFromAnswer({
         'id': '0e04becd-7207-4b78-b211-479ecf2f4c50',
@@ -176,8 +117,6 @@ export const chatbotService = {
 
   saveGeneratedQuestionAnswer: async (payload: ISaveGeneratedQuestionPayload) => {
     try {
-      await sleep()
-
       await chatBotAPI.post('/persist_answer', payload)
 
       return true
