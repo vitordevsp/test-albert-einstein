@@ -11,10 +11,6 @@ import {
   ISaveGeneratedQuestionPayload,
 } from '../../interfaces/chatBotAPI'
 
-function sleep(ms: number = 3_000) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
 export const chatbotService = {
   historyList: async (email: string): Promise<IDialogue[]> => {
     try {
@@ -61,7 +57,7 @@ export const chatbotService = {
     const questionType = 'interpretative'
 
     try {
-      const { data } = await chatBotAPI.get<IQuestionResponse>('/generate_question', {
+      await chatBotAPI.get<IQuestionResponse>('/generate_question', {
         params: {
           memory_id: dialogueId,
           question_type: questionType,
